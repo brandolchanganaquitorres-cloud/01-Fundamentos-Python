@@ -1,3 +1,4 @@
+ARCHIVO_PEDIDOS = "pedidos.txt"
 
 def pedir_cafe():
     print("\n Elige el café que prefieras: ")
@@ -14,3 +15,12 @@ def pedir_cafe():
         "3": "Latte",
         "4": "Americano"
     }
+
+    if opcion in cafes:
+        cafe_elegido = cafes[opcion]
+        print("Has pedido un " + cafe_elegido + ". ¡Preparando tu café!")
+
+        with open(ARCHIVO_PEDIDOS, "a", encoding="utf-8") as archivo:
+            archivo.write(cafe_elegido + "\n")
+    else:
+        print("Opción no es válida por favor intenta de nuevo")
