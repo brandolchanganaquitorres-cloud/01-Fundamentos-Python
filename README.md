@@ -81,3 +81,162 @@ Además de su perfil técnico, se ha desarrollado como **músico independiente**
 - 🎞️ **TikTok**: https://www.tiktok.com/@sergiecode
 - 🕊️ **Twitter**: https://twitter.com/sergiecode
 - 🧵 **Threads**: https://www.threads.net/@sergiecode
+
+## Otros apuntes
+
+BRANCH:
+
+MÓDULO 1 – Primeros Pasos con Python
+git checkout -b feature/m01-c001-introduccion-python
+
+git checkout -b feature/m01-c002-instalacion-entorno
+
+git checkout -b feature/m01-c003-variables-entorno
+
+git checkout -b feature/m01-c004-terminal-python
+
+git checkout -b feature/m01-c005-sintaxis-indentacion
+
+git checkout -b feature/m01-c006-comentarios
+
+git checkout -b feature/m01-c007-variables
+
+git checkout -b feature/m01-c008-asignacion-multiple
+
+git checkout -b feature/m01-c009-tipos-datos
+
+git checkout -b feature/m01-c010-numeros
+
+git checkout -b feature/m01-c011-strings-metodos
+
+git checkout -b feature/m01-c012-strings-avanzado
+
+git checkout -b feature/m01-c013-booleanos
+
+git checkout -b feature/m01-c014-none
+MÓDULO 2 – Lógica de Programación y Control de Flujo
+git checkout -b feature/m02-c015-operadores-aritmeticos
+
+git checkout -b feature/m02-c016-operadores-asignacion
+
+git checkout -b feature/m02-c017-operadores-logicos
+
+git checkout -b feature/m02-c018-condicionales
+
+git checkout -b feature/m02-c019-match
+
+git checkout -b feature/m02-c020-while
+
+git checkout -b feature/m02-c021-for
+MÓDULO 3 – Estructuras de Datos Fundamentales
+git checkout -b feature/m03-c022-listas
+
+git checkout -b feature/m03-c023-tuplas
+
+git checkout -b feature/m03-c024-conjuntos
+
+git checkout -b feature/m03-c025-diccionarios
+MÓDULO 4 – Modularización del Código
+git checkout -b feature/m04-c026-funciones
+
+git checkout -b feature/m04-c027-lambda
+
+git checkout -b feature/m04-c028-modulos
+MÓDULO 5 – Manejo de Errores y Archivos
+git checkout -b feature/m05-c029-manejo-errores
+
+git checkout -b feature/m05-c030-archivos-texto
+MÓDULO 6 – Trabajo Práctico Final
+git checkout -b feature/m06-c031-maquina-cafe
+
+git checkout -b feature/m06-c032-archivos-proyecto
+Y las carpetas quedarían exactamente igual
+01-python-fundamentos/
+│
+├── README.md
+├── instalaciones-necesarias.md
+├── recursos/
+│
+├── 001-introduccion-python/
+├── 002-instalacion-entorno/
+├── 003-variables-entorno/
+├── 004-terminal-python/
+├── 005-sintaxis-indentacion/
+├── 006-comentarios/
+├── 007-variables/
+├── 008-asignacion-multiple/
+├── 009-tipos-datos/
+├── 010-numeros/
+├── 011-strings-metodos/
+├── 012-strings-avanzado/
+├── 013-booleanos/
+├── 014-none/
+├── 015-operadores-aritmeticos/
+├── 016-operadores-asignacion/
+├── 017-operadores-logicos/
+├── 018-condicionales/
+├── 019-match/
+├── 020-while/
+├── 021-for/
+├── 022-listas/
+├── 023-tuplas/
+├── 024-conjuntos/
+├── 025-diccionarios/
+├── 026-funciones/
+├── 027-lambda/
+├── 028-modulos/
+├── 029-manejo-errores/
+├── 030-archivos-texto/
+├── 031-maquina-cafe/
+└── 032-archivos-proyecto/
+
+Estructura de las carpetas:
+01-python-fundamentos/
+│
+├── README.md
+├── instalaciones-necesarias.md
+├── recursos/
+│
+├── 01-primeros-pasos-python/
+│   ├── 001-introduccion-python/
+│   ├── 002-instalacion-entorno/
+│   ├── 003-variables-entorno/
+│   ├── 004-terminal-python/
+│   ├── 005-sintaxis-indentacion/
+│   ├── 006-comentarios/
+│   ├── 007-variables/
+│   ├── 008-asignacion-multiple/
+│   ├── 009-tipos-datos/
+│   ├── 010-numeros/
+│   ├── 011-strings-metodos/
+│   ├── 012-strings-avanzado/
+│   ├── 013-booleanos/
+│   └── 014-none/
+│
+├── 02-logica-control-flujo/
+│   ├── 015-operadores-aritmeticos/
+│   ├── 016-operadores-asignacion/
+│   ├── 017-operadores-logicos/
+│   ├── 018-condicionales/
+│   ├── 019-match/
+│   ├── 020-while/
+│   └── 021-for/
+│
+├── 03-estructuras-datos/
+│   ├── 022-listas/
+│   ├── 023-tuplas/
+│   ├── 024-conjuntos/
+│   └── 025-diccionarios/
+│
+├── 04-modularizacion/
+│   ├── 026-funciones/
+│   ├── 027-lambda/
+│   └── 028-modulos/
+│
+├── 05-manejo-errores-archivos/
+│   ├── 029-manejo-errores/
+│   └── 030-archivos-texto/
+│
+└── 06-trabajo-practico-final/
+    ├── 031-maquina-cafe/
+    └── 032-archivos-proyecto/
