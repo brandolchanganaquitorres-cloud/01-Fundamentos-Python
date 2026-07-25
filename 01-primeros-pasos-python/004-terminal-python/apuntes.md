@@ -1,321 +1,81 @@
-# Configuración de las Variables de Entorno de Python en Windows
+# Clase 4: Ejecución de Python en Windows desde PowerShell
 
 ## Objetivos de aprendizaje
 
-Al finalizar esta sección serás capaz de:
+Al finalizar esta clase serás capaz de:
 
-- Comprender qué son las variables de entorno en Windows.
-- Entender cómo funciona internamente la variable `Path`.
-- Verificar si Python fue configurado correctamente durante la instalación.
-- Diagnosticar errores relacionados con `python`, `pip` y `py`.
-- Configurar manualmente Python cuando sea necesario.
-- Comprender por qué esta configuración es fundamental para el desarrollo profesional de software y de aplicaciones de IA.
+- Verificar correctamente la instalación de Python desde PowerShell.
+- Comprender cómo intervienen las variables de entorno al ejecutar Python.
+- Crear, editar y ejecutar tu primer programa en Python.
+- Utilizar el autocompletado de PowerShell para aumentar la productividad.
+- Trabajar con el intérprete interactivo de Python (REPL).
+- Diferenciar cuándo utilizar un script `.py` y cuándo utilizar la consola interactiva.
 
 ---
 
 # Introducción
 
-Uno de los primeros pasos después de instalar Python consiste en asegurarse de que el sistema operativo pueda localizar el intérprete desde cualquier terminal.
+Una vez instalado Python y configuradas correctamente las variables de entorno, el siguiente paso consiste en ejecutar código.
 
-Aunque durante la instalación existe la opción **"Add Python to PATH"**, comprender qué ocurre detrás de esa casilla es mucho más importante que simplemente marcarla.
+Existen dos formas principales de hacerlo:
 
-Como AI Engineer o Software Engineer, constantemente trabajarás desde:
+1. Ejecutando archivos `.py`.
+2. Utilizando el intérprete interactivo (REPL).
 
-- PowerShell
-- CMD
-- Windows Terminal
-- Visual Studio Code
-- Docker
-- Git Bash
-- WSL (Windows Subsystem for Linux)
-- Scripts de automatización
-- CI/CD
-
-Todos estos entornos dependen del mismo mecanismo: **las variables de entorno**.
-
-No comprenderlas suele convertirse en uno de los primeros obstáculos para quienes comienzan a programar.
+Ambos métodos forman parte del flujo de trabajo diario de cualquier desarrollador de software o AI Engineer.
 
 ---
 
-# ¿Qué son las variables de entorno?
+# Verificación de la instalación de Python
 
-Las variables de entorno son pares **clave–valor** que el sistema operativo mantiene en memoria para proporcionar información a los procesos en ejecución.
+Antes de escribir cualquier programa es recomendable comprobar que Python puede ejecutarse correctamente desde la terminal.
 
-Ejemplos comunes:
+Esta comprobación confirma que:
 
-| Variable | Propósito |
-|----------|-----------|
-| PATH | Ubicación de programas ejecutables |
-| TEMP | Directorio de archivos temporales |
-| USERPROFILE | Carpeta del usuario actual |
-| APPDATA | Configuración de aplicaciones |
-| HOMEPATH | Directorio personal |
-
-Cuando cualquier programa necesita ejecutar otro programa, Windows consulta estas variables para localizarlo.
+- Python está instalado.
+- Las variables de entorno están correctamente configuradas.
+- La terminal puede localizar el intérprete desde cualquier directorio.
 
 ---
 
-# ¿Qué es la variable PATH?
+## Abrir PowerShell
 
-`PATH` es una variable especial que contiene una lista ordenada de directorios donde Windows buscará archivos ejecutables.
+Existen dos formas sencillas de abrir PowerShell.
 
-Por ejemplo:
+### Método 1
+
+Desde cualquier carpeta:
+
+1. Mantener presionada la tecla **Shift**.
+2. Hacer clic derecho.
+3. Seleccionar:
 
 ```text
-C:\Windows\System32
-C:\Windows
-C:\Program Files\Git\cmd
-C:\Python313\
-C:\Python313\Scripts\
+Open PowerShell Window Here
 ```
 
-Cada ruta representa una ubicación que Windows recorrerá automáticamente cuando escribas un comando.
+Este método abre la terminal directamente en la carpeta donde se trabajará.
 
 ---
 
-# Funcionamiento interno de PATH
+### Método 2
 
-Cuando escribes:
+Desde el menú Inicio:
 
-```powershell
-python
-```
-
-Windows **no sabe inicialmente dónde se encuentra Python**.
-
-Internamente ocurre el siguiente proceso:
-
-```text
-Usuario
-
-↓
-
-PowerShell
-
-↓
-
-Windows
-
-↓
-
-Leer variable PATH
-
-↓
-
-Buscar python.exe en cada directorio
-
-↓
-
-¿Encontrado?
-
-├── Sí → Ejecutar python.exe
-└── No → Mostrar error
-```
-
-El sistema inspecciona secuencialmente cada carpeta incluida en `PATH` hasta localizar un ejecutable llamado `python.exe`.
-
-Si no lo encuentra, devuelve un error indicando que el comando no existe o no puede localizarse.
-
----
-
-# ¿Qué hace realmente la opción "Add Python to PATH"?
-
-Durante la instalación de Python aparece la opción:
-
-```text
-☑ Add Python to PATH
-```
-
-Muchos usuarios la marcan sin conocer su función.
-
-Internamente, el instalador añade automáticamente dos directorios a la variable `PATH`:
-
-```text
-C:\Users\<usuario>\AppData\Local\Programs\Python\Python313\
-```
-
-y
-
-```text
-C:\Users\<usuario>\AppData\Local\Programs\Python\Python313\Scripts\
-```
-
-> **Nota:** La versión (`Python313`) variará según la instalación realizada.
-
-### ¿Por qué se agregan dos rutas?
-
-Cada una cumple una función distinta.
-
-| Ruta | Contenido |
-|------|-----------|
-| Python | Intérprete (`python.exe`) |
-| Scripts | Herramientas instaladas con `pip` |
-
----
-
-# ¿Por qué también se agrega la carpeta Scripts?
-
-Muchos principiantes creen que únicamente necesitan ejecutar Python.
-
-En la práctica, utilizarás constantemente herramientas instaladas mediante `pip`, por ejemplo:
-
-```text
-pip
-black
-pytest
-uvicorn
-jupyter
-streamlit
-fastapi
-ruff
-```
-
-Todas ellas se almacenan normalmente dentro de:
-
-```text
-Scripts\
-```
-
-Si esa carpeta no forma parte de `PATH`, los comandos anteriores no funcionarán aunque estén correctamente instalados.
-
----
-
-# Variables de Usuario vs Variables del Sistema
-
-Windows distingue dos ámbitos para las variables de entorno.
-
-## Variables de Usuario
-
-Afectan únicamente al usuario que ha iniciado sesión.
-
-Características:
-
-- No requieren privilegios administrativos.
-- Son la opción recomendada para instalaciones personales.
-- No modifican el entorno de otros usuarios del equipo.
-
----
-
-## Variables del Sistema
-
-Se aplican globalmente.
-
-Características:
-
-- Requieren permisos administrativos.
-- Todos los usuarios del equipo las comparten.
-- Son habituales en servidores y equipos corporativos.
-
----
-
-# ¿Dónde registra Python sus rutas?
-
-Depende del tipo de instalación.
-
-## Instalación para un único usuario
-
-Generalmente modifica:
-
-```text
-Variables de Usuario
-```
-
----
-
-## Instalación para todos los usuarios
-
-Generalmente modifica:
-
-```text
-Variables del Sistema
-```
-
-Por ello es completamente normal encontrar Python registrado en cualquiera de los dos bloques.
-
----
-
-# Cómo abrir las Variables de Entorno
-
-1. Abrir el menú Inicio.
+1. Abrir Inicio.
 2. Escribir:
 
 ```text
-Variables de entorno
+PowerShell
 ```
 
-o en inglés:
-
-```text
-Edit the system environment variables
-```
-
-3. Seleccionar el resultado correspondiente.
-4. Pulsar:
-
-```text
-Environment Variables...
-```
-
-Se abrirá la ventana de configuración.
+3. Ejecutar la aplicación.
 
 ---
 
-# Cómo verificar la variable PATH
+# Comprobar la versión de Python
 
-Dentro de la ventana:
-
-1. Seleccionar `Path`.
-2. Pulsar **Editar**.
-
-Deberías encontrar rutas similares a:
-
-```text
-C:\Users\<usuario>\AppData\Local\Programs\Python\Python313\
-```
-
-y
-
-```text
-C:\Users\<usuario>\AppData\Local\Programs\Python\Python313\Scripts\
-```
-
-Si ambas existen, la instalación normalmente está correctamente configurada.
-
----
-
-# Verificación desde PowerShell
-
-La forma más fiable de validar la configuración consiste en abrir una **nueva** ventana de PowerShell y ejecutar:
-
-```powershell
-python
-```
-
-Si aparece el prompt interactivo:
-
-```python
->>>
-```
-
-el intérprete fue localizado correctamente.
-
-Salir mediante:
-
-```python
-exit()
-```
-
-o
-
-```python
-quit()
-```
-
----
-
-# Verificación de la versión instalada
-
-Una comprobación más práctica consiste en consultar la versión:
+Para verificar que Python responde correctamente, ejecutar:
 
 ```powershell
 python --version
@@ -333,250 +93,469 @@ Ejemplo:
 Python 3.13.2
 ```
 
----
+Si el comando funciona desde cualquier carpeta significa que las variables de entorno (`PATH`) están correctamente configuradas.
 
-# Verificar el lanzador oficial de Python
-
-En Windows, el instalador también suele instalar el **Python Launcher**, accesible mediante:
-
-```powershell
-py
-```
-
-Consultar la versión:
-
-```powershell
-py --version
-```
-
-Este lanzador permite gestionar varias versiones de Python instaladas simultáneamente y es especialmente útil en entornos de desarrollo profesionales.
+> **Nota:** El material original menciona `python-version`, pero el comando correcto es `python --version` (o `python -V`). `python-version` no es un comando válido del intérprete estándar de Python.
 
 ---
 
-# ¿Qué ocurre si PATH no está configurado?
+# ¿Por qué son importantes las variables de entorno?
 
-Al ejecutar:
+Cuando ejecutas:
 
 ```powershell
 python
 ```
 
-podrías obtener errores como:
+Windows busca automáticamente el ejecutable en las rutas registradas en la variable `PATH`.
+
+Gracias a ello puedes ejecutar Python desde cualquier ubicación sin escribir la ruta completa al ejecutable.
+
+Esto aporta varias ventajas:
+
+- Ejecutar scripts desde cualquier carpeta.
+- Evitar errores relacionados con la ubicación del intérprete.
+- Mejorar la productividad al trabajar desde la terminal.
+
+---
+
+# Crear el primer programa en Python
+
+Los programas de Python se almacenan en archivos con extensión:
 
 ```text
-'python' no se reconoce como un comando...
+.py
+```
+
+Cada archivo representa un módulo o script ejecutable.
+
+---
+
+## Crear un archivo desde PowerShell
+
+Para crear un archivo vacío se puede utilizar:
+
+```powershell
+New-Item "basico.py"
+```
+
+Al ejecutarlo aparecerá el archivo en el directorio actual.
+
+---
+
+# Editar el archivo
+
+Una forma sencilla consiste en abrir el archivo con el Bloc de notas.
+
+Escribir el siguiente código:
+
+```python
+print("Hola, mundo")
+```
+
+Guardar el archivo antes de ejecutarlo.
+
+---
+
+# La función `print()`
+
+`print()` es una función integrada de Python cuya finalidad es mostrar información en la salida estándar (normalmente la consola).
+
+Sintaxis:
+
+```python
+print(valor)
+```
+
+Ejemplo:
+
+```python
+print("Hola, mundo")
+```
+
+Salida:
+
+```text
+Hola, mundo
+```
+
+Aunque suele ser la primera instrucción que se aprende, `print()` es una herramienta muy utilizada durante el desarrollo para:
+
+- visualizar resultados;
+- depurar programas;
+- inspeccionar variables;
+- comprobar el flujo de ejecución.
+
+---
+
+# Ejecutar un script desde PowerShell
+
+Para ejecutar el archivo creado:
+
+```powershell
+python basico.py
+```
+
+Resultado esperado:
+
+```text
+Hola, mundo
+```
+
+Cada vez que ejecutes el comando, Python leerá el contenido del archivo desde el inicio y ejecutará las instrucciones en orden.
+
+---
+
+# Uso del autocompletado en PowerShell
+
+PowerShell incorpora autocompletado mediante la tecla **Tab**.
+
+Ejemplo:
+
+Si el archivo se llama:
+
+```text
+basico.py
+```
+
+puedes escribir únicamente:
+
+```powershell
+python ba
+```
+
+y pulsar:
+
+```text
+Tab
+```
+
+PowerShell completará automáticamente el nombre del archivo.
+
+Esta característica:
+
+- reduce errores tipográficos;
+- acelera la escritura de comandos;
+- mejora la productividad cuando se trabaja con muchos archivos.
+
+---
+
+# El intérprete interactivo de Python (REPL)
+
+Además de ejecutar archivos, Python dispone de un entorno interactivo denominado **REPL** (*Read-Eval-Print Loop*).
+
+Permite escribir instrucciones una por una y obtener el resultado inmediatamente.
+
+Es una herramienta muy útil para:
+
+- realizar pruebas rápidas;
+- experimentar con funciones;
+- verificar expresiones;
+- aprender la sintaxis del lenguaje.
+
+---
+
+# Abrir el intérprete interactivo
+
+Desde PowerShell ejecutar:
+
+```powershell
+python
+```
+
+Aparecerá un mensaje similar al siguiente:
+
+```text
+Python 3.13.2
+>>>
+```
+
+El símbolo:
+
+```text
+>>>
+```
+
+indica que el intérprete está esperando instrucciones.
+
+---
+
+# Ejecutar instrucciones
+
+Dentro del REPL se pueden escribir expresiones directamente.
+
+### Imprimir un texto
+
+```python
+print("Hola, mundo")
+```
+
+Salida:
+
+```text
+Hola, mundo
+```
+
+---
+
+### Realizar operaciones matemáticas
+
+```python
+3 + 2
+```
+
+Resultado:
+
+```text
+5
+```
+
+Una de las características del REPL es que muestra automáticamente el resultado de las expresiones, sin necesidad de utilizar `print()`.
+
+---
+
+# Salir del intérprete
+
+Para regresar a PowerShell ejecutar:
+
+```python
+exit()
 ```
 
 o
 
-```text
-Command not found
+```python
+quit()
 ```
 
-Esto indica que Windows no pudo localizar `python.exe` en ninguna de las rutas registradas.
+También puede utilizarse el atajo:
+
+```text
+Ctrl + Z
+```
+
+seguido de:
+
+```text
+Enter
+```
+
+en Windows.
 
 ---
 
-# Configuración manual de PATH
+# Script vs REPL
 
-Si Python no fue agregado automáticamente, puede hacerse manualmente.
+Aunque ambos permiten ejecutar código Python, tienen objetivos distintos.
 
-Agregar:
+| Script (.py) | REPL |
+|--------------|------|
+| Código persistente | Código temporal |
+| Se guarda en archivos | No se guarda automáticamente |
+| Ideal para proyectos | Ideal para pruebas rápidas |
+| Ejecuta múltiples instrucciones | Ejecuta una instrucción cada vez |
+| Reutilizable | Experimental |
 
-```text
-C:\Users\<usuario>\AppData\Local\Programs\Python\Python313\
-```
-
-y:
-
-```text
-C:\Users\<usuario>\AppData\Local\Programs\Python\Python313\Scripts\
-```
-
-Después de guardar los cambios:
-
-1. Cerrar todas las terminales abiertas.
-2. Abrir una nueva PowerShell.
-3. Verificar nuevamente:
-
-```powershell
-python --version
-```
+En un proyecto profesional ambos se utilizan de forma complementaria.
 
 ---
 
-# Funcionamiento interno después de configurar PATH
+# Flujo de ejecución
 
-Antes:
+## Ejecución de un archivo
 
 ```text
 PowerShell
 
 ↓
 
-¿Dónde está python.exe?
+python basico.py
 
 ↓
 
-No encontrado
+Python abre el archivo
 
 ↓
 
-Error
+Lee el código línea por línea
+
+↓
+
+Ejecuta cada instrucción
+
+↓
+
+Finaliza el proceso
 ```
 
-Después:
+---
+
+## Uso del REPL
 
 ```text
 PowerShell
 
 ↓
 
-Leer PATH
+python
 
 ↓
 
-Encontrar python.exe
+REPL
 
 ↓
 
-Cargar el intérprete
+Usuario escribe una instrucción
 
 ↓
 
-Ejecutar Python
+Python la ejecuta
+
+↓
+
+Muestra el resultado
+
+↓
+
+Espera la siguiente instrucción
 ```
-
-Todo este proceso ocurre automáticamente y suele completarse en unos pocos milisegundos.
 
 ---
 
 # Problemas frecuentes en producción
 
-## Error 1: PATH actualizado pero PowerShell sigue fallando
+## Error 1: `'python' no se reconoce como un comando`
 
 ### Causa
 
-La terminal fue abierta antes de modificar las variables de entorno.
+Python no está en la variable `PATH`.
 
 ### Solución
 
-Cerrar completamente:
-
-- PowerShell
-- CMD
-- Windows Terminal
-- Visual Studio Code
-
-y volver a abrirlos.
+Verificar las variables de entorno y reiniciar la terminal.
 
 ---
 
-## Error 2: Existe más de una instalación de Python
+## Error 2: `No such file`
 
-Síntomas:
+### Causa
 
-```powershell
-python --version
-```
-
-devuelve una versión distinta de la esperada.
+El archivo `.py` no existe o el nombre es incorrecto.
 
 ### Diagnóstico
 
-Comprobar qué ejecutable se está utilizando:
+Listar los archivos del directorio actual:
 
 ```powershell
-where python
+dir
 ```
-
-Windows mostrará todas las rutas encontradas.
-
-### Solución
-
-Eliminar instalaciones antiguas o ajustar el orden de las rutas en `PATH`.
 
 ---
 
-## Error 3: `pip` funciona pero `python` no
+## Error 3: Error de sintaxis
+
+Ejemplo:
+
+```python
+print(Hola)
+```
+
+Salida:
+
+```text
+NameError
+```
 
 ### Causa
 
-Solo la carpeta `Scripts` fue agregada al `PATH`.
+Las cadenas de texto deben escribirse entre comillas.
 
-### Solución
+Correcto:
 
-Agregar también la carpeta que contiene `python.exe`.
+```python
+print("Hola")
+```
 
 ---
 
-## Error 4: `python` abre Microsoft Store
+## Error 4: Ejecutar desde un directorio incorrecto
 
-En versiones recientes de Windows existe un alias denominado **App Execution Alias**.
+Si PowerShell no se encuentra en la carpeta donde está el archivo:
 
-Si Python no está instalado correctamente, Windows puede redirigir el comando `python` hacia Microsoft Store.
+```powershell
+python basico.py
+```
+
+producirá un error indicando que no puede encontrar el archivo.
 
 ### Solución
 
-- Instalar Python desde el instalador oficial.
-- Verificar que las rutas estén presentes en `PATH`.
-- Si es necesario, desactivar el alias desde **Configuración → Aplicaciones → Alias de ejecución de aplicaciones**.
+Moverse al directorio correcto con:
+
+```powershell
+cd ruta\del\directorio
+```
+
+o abrir PowerShell directamente en esa carpeta.
 
 ---
 
 # Buenas prácticas
 
-- Instalar Python desde el instalador oficial.
-- Activar siempre **Add Python to PATH**.
-- Verificar la instalación con `python --version`.
-- Confirmar el funcionamiento de `pip`.
-- Utilizar `py` cuando se administren múltiples versiones de Python en Windows.
-- Evitar duplicar rutas en `PATH`.
-- Reiniciar las terminales después de modificar variables de entorno.
+- Verificar siempre la instalación con `python --version`.
+- Guardar los scripts con extensión `.py`.
+- Utilizar nombres de archivos descriptivos y sin espacios.
+- Aprovechar el autocompletado mediante la tecla **Tab**.
+- Usar el REPL para pruebas rápidas y los scripts para código reutilizable.
+- Mantener una estructura organizada de carpetas para los proyectos.
 
 ---
 
 # Relación con la Ingeniería de IA
 
-Comprender `PATH` resulta esencial porque numerosas herramientas del ecosistema de IA dependen de este mecanismo.
+La ejecución de scripts desde la terminal es una habilidad fundamental para trabajar con herramientas del ecosistema de IA.
 
-```text
-PATH
-│
-├── python
-├── pip
-├── uv
-├── git
-├── node
-├── npm
-├── docker
-├── kubectl
-├── az
-├── aws
-├── gcloud
-├── n8n
-├── uvicorn
-├── streamlit
-├── jupyter
-├── fastapi
-└── code
+A diario ejecutarás comandos como:
+
+```powershell
+python app.py
 ```
 
-Si cualquiera de estas herramientas no está registrada correctamente en `PATH`, no podrá ejecutarse desde la terminal, afectando flujos de desarrollo, automatización y despliegue.
+```powershell
+python train.py
+```
+
+```powershell
+python rag.py
+```
+
+```powershell
+python main.py
+```
+
+o iniciarás servidores mediante:
+
+```powershell
+uvicorn main:app --reload
+```
+
+Comprender cómo se ejecutan los programas desde la terminal facilita posteriormente el uso de frameworks como FastAPI, LangChain, herramientas de automatización y procesos de entrenamiento de modelos.
 
 ---
 
 # Correcciones y actualización respecto al contenido original
 
-## Corrección 1: Verificación recomendada
+## Corrección 1: Comando para consultar la versión
 
-El material original propone ejecutar:
+El material original indica:
 
 ```powershell
-python
+python-version
 ```
 
-Aunque es válido, en la práctica profesional resulta más eficiente verificar primero la instalación mediante:
+Este comando es incorrecto.
+
+La forma correcta es:
 
 ```powershell
 python --version
@@ -585,53 +564,76 @@ python --version
 o
 
 ```powershell
-py --version
+python -V
 ```
 
-Esto confirma que el intérprete es accesible sin entrar en el modo interactivo.
+---
+
+## Corrección 2: Creación de archivos en PowerShell
+
+El contenido original utiliza:
+
+```powershell
+new item "basico.py"
+```
+
+La sintaxis habitual en PowerShell es:
+
+```powershell
+New-Item "basico.py"
+```
+
+PowerShell no distingue mayúsculas de minúsculas, pero el nombre del cmdlet incluye un guion (`-`).
 
 ---
 
-## Corrección 2: Inclusión del Python Launcher (`py`)
+## Corrección 3: Nombres de archivos
 
-El contenido original no menciona `py`, una herramienta instalada por defecto en Windows que facilita la gestión de múltiples versiones de Python y es ampliamente utilizada en entornos profesionales.
+Aunque Windows permite caracteres acentuados en los nombres de archivo, en proyectos de desarrollo se recomienda utilizar nombres sin espacios ni tildes, por ejemplo:
 
----
+```text
+basico.py
+```
 
-## Corrección 3: Alias de Microsoft Store
+en lugar de:
 
-El material original omite un problema frecuente en Windows modernos: el redireccionamiento del comando `python` hacia Microsoft Store mediante los **App Execution Aliases**, una causa habitual de confusión para principiantes.
+```text
+básico.py
+```
+
+Esto evita problemas de compatibilidad entre sistemas operativos y herramientas de automatización.
 
 ---
 
 # Preguntas técnicas de entrevista
 
-## 1. ¿Qué ocurre internamente cuando ejecutas `python` desde PowerShell?
+## 1. ¿Cuál es la diferencia entre ejecutar un archivo `.py` y utilizar el REPL?
 
-**Qué evalúa:** Comprensión del proceso de resolución de ejecutables mediante la variable `PATH`.
+**Qué evalúa:** Comprensión de los distintos modos de ejecución de Python y sus casos de uso.
 
-**Error común:** Responder únicamente que "se abre Python" sin explicar cómo Windows localiza el ejecutable.
-
----
-
-## 2. ¿Cuál es la diferencia entre las Variables de Usuario y las Variables del Sistema?
-
-**Qué evalúa:** Conocimiento de la administración del entorno en Windows.
-
-**Error común:** Pensar que ambas tienen exactamente el mismo comportamiento.
+**Error común:** Pensar que ambos se utilizan indistintamente sin considerar persistencia, reutilización y propósito.
 
 ---
 
-## 3. ¿Por qué el instalador añade tanto la carpeta principal de Python como la carpeta `Scripts` al `PATH`?
+## 2. ¿Por qué `print()` sigue siendo útil en proyectos profesionales?
 
-**Qué evalúa:** Comprensión de la estructura de instalación de Python y del funcionamiento de herramientas instaladas mediante `pip`.
+**Qué evalúa:** Conocimiento de técnicas básicas de depuración y observabilidad durante el desarrollo.
 
-**Error común:** Creer que solo `python.exe` necesita estar accesible desde la terminal.
+**Error común:** Considerar que `print()` solo sirve para ejercicios introductorios.
+
+---
+
+## 3. ¿Qué ventajas ofrece el autocompletado de PowerShell al trabajar con proyectos grandes?
+
+**Qué evalúa:** Productividad en la línea de comandos y buenas prácticas al interactuar con el sistema operativo.
+
+**Error común:** Ignorar herramientas del shell que reducen errores y aceleran el flujo de trabajo.
 
 ---
 
 # Recursos oficiales
 
-- Documentación oficial de Python: https://docs.python.org/3/
-- Uso de Python en Windows: https://docs.python.org/3/using/windows.html
-- Variables de entorno en Windows (Microsoft Learn): https://learn.microsoft.com/windows/
+- Documentación oficial de Python: https://docs.python.org/3/tutorial/interpreter.html
+- Tutorial oficial de Python: https://docs.python.org/3/tutorial/
+- PowerShell Documentation (Microsoft Learn): https://learn.microsoft.com/powershell/
+```
